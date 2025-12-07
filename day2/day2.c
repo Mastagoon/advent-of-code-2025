@@ -43,13 +43,8 @@ long part1(){
 		char *left = set;
 		set = strtok(NULL, ",");
 		char *right = set;
-		char left1[20];
-		char left2[20];
-		char right1[20];
-		char right2[20];
-		long leftN, rightN;
-		leftN = atol(left);
-		rightN = atol(right);
+		long leftN = atol(left);
+		long rightN = atol(right);
 		int diff = digits_diff(rightN, leftN);
 		do {
 			// ignore odd
@@ -82,7 +77,6 @@ long part1(){
 
 			leftN = pow_of_ten(digit_count(leftN));
 			diff--;
-			getchar();
 			
 		} while(diff >= 0);
 
