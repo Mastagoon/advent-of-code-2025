@@ -47,7 +47,6 @@ long part1(){
 		long rightN = atol(right);
 		int diff = digits_diff(rightN, leftN);
 		do {
-			// ignore odd
 			if(digit_count(leftN) %2 != 0) {
 				leftN = pow_of_ten(digit_count(leftN));
 				diff--;
@@ -61,16 +60,9 @@ long part1(){
 			int rl = left_half(rightN);
 			int rr = right_half(rightN);
 
-			if(ll == lr) {
-				sum += leftN;
-			}
-
-			if(ll > lr) {
-				sum += repeat(ll);
-			}
-
-			for(int i = ll+1; i <= rl; i++){
+			for(int i = ll; i <= rl; i++){
 				long num = repeat(i);
+				if(num < leftN) continue;
 				if(num >= rightN) break;
 				sum += num;
 			}
