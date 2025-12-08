@@ -3,7 +3,7 @@
 
 int part1() {
 	FILE *fptr;
-	fptr = fopen("input.txt", "r");
+	fptr = fopen("day1.txt", "r");
 	char instruction[10];
 	int n = 50;
 	int result = 0;
