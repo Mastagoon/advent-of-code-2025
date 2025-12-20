@@ -26,6 +26,12 @@ long right_half(long num) {
 	return num % pow_of_ten(digit_count(num)/2);
 }
 
+long slice_number(long num, int start, int end) {
+	long p1 = num / pow_of_ten(digit_count(num) - end);
+	long p2 =  p1 % pow_of_ten(digit_count(p1) - start);
+	return p2;
+}
+
 long repeat(long num) {
 	return num * pow_of_ten(digit_count(num)) + num;
 }
@@ -79,10 +85,33 @@ long part1(){
 	return sum;
 }
 
-// this function takes a number (123123123)
-// splits it to find 
-long find_pattern(long n){
+int find_pattern(long n){
+	int len = digit_count(n);
+	for(int i = 1; i < len; i++) {
+		// factors of n
+		if(len % i == 0) {
+			int p1 = 0, p2 = i, pattern = 0;
+			long first_chunk = slice_number(n, p1, p2);
+			p2 += i;
+			while(p2 <= len) {
+				long chunk = slice_number(n, p2-i, p2);
 
+				if(first_chunk != chunk) {
+					pattern = 0;
+					break;
+				}
+
+				if(pattern == 0 && first_chunk == chunk) {
+					pattern = 1;
+				}
+
+				p2 += i;
+			}
+			if(pattern) {
+				return 1;
+			}
+		}
+	}
 	return 0;
 }
 
@@ -102,34 +131,11 @@ long part2(){
 		long leftN = atol(left);
 		long rightN = atol(right);
 		int diff = digits_diff(rightN, leftN);
-		do {
-			if(digit_count(leftN) %2 != 0) {
-				leftN = pow_of_ten(digit_count(leftN));
-				diff--;
-				continue;
+		for(; leftN < rightN; leftN++) {
+			if(find_pattern(leftN)) {
+				sum += leftN;
 			}
-
-			int ll = left_half(leftN);
-			int lr = right_half(leftN);
-
-			int rl = left_half(rightN);
-			int rr = right_half(rightN);
-
-			// 98 123
-			for(int i = ll; i <= rl; i++){
-				while(1 == 1) {
-
-				}
-				long num = repeat(i);
-				if(num < leftN) continue;
-				if(num >= rightN) break;
-				sum += num;
-			}
-
-			leftN = pow_of_ten(digit_count(leftN));
-			diff--;
-			
-		} while(diff >= 0);
+		}
 
 		set = strtok(NULL, "-");
 	}
